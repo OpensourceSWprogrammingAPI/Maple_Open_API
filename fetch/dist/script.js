@@ -19,7 +19,7 @@ function searchCharacter() {
     }
 
     const headers = {
-        "x-nxopen-api-key": "test_2e7bbb76a9327c457410f73e4abeb16afecf44c0a58d40c4c125208b723c2e19efe8d04e6d233bd35cf2fabdeb93fb0d"
+        "x-nxopen-api-key": ""
     }; // 발급받은 nxopen_api_key 입력
 
     // 첫 번째 요청: 캐릭터 ocid 가져오기
