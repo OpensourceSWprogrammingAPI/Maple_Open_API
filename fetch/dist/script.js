@@ -9,8 +9,6 @@ window.onload = function() {
     document.getElementById('character-name').value = ''; // 캐릭터 이름 초기화
 };
 
-
-
 function searchCharacter() {
     const characterName = document.getElementById('character-name').value; // 사용자가 입력한 캐릭터 이름 가져오기
     const searchDate = document.getElementById('search-date').value;
@@ -21,7 +19,7 @@ function searchCharacter() {
     }
 
     const headers = {
-        "x-nxopen-api-key": "키 입력"
+        "x-nxopen-api-key": "test_2e7bbb76a9327c457410f73e4abeb16afecf44c0a58d40c4c125208b723c2e19efe8d04e6d233bd35cf2fabdeb93fb0d"
     }; // 발급받은 nxopen_api_key 입력
 
     // 첫 번째 요청: 캐릭터 ocid 가져오기
@@ -38,13 +36,17 @@ function searchCharacter() {
     .then(data => {
         const ocid = data.ocid;
 
-        // 두 번째 요청: 캐릭터 정보 가져오기
+        // 두 번째 요청: 캐릭터 정보, 전투력, 유니온, 인기도 가져오기
         return Promise.all([
             fetch(`https://open.api.nexon.com/maplestory/v1/character/basic?ocid=${ocid}&date=${searchDate}`, {
                 method: "GET",
                 headers: headers
             }),
             fetch(`https://open.api.nexon.com/maplestory/v1/character/stat?ocid=${ocid}&date=${searchDate}`, {
+                method: "GET",
+                headers: headers
+            }),
+            fetch(`https://open.api.nexon.com/maplestory/v1/user/union?ocid=${ocid}&date=${searchDate}`, {
                 method: "GET",
                 headers: headers
             }),
@@ -63,7 +65,7 @@ function searchCharacter() {
             return response.json();
         }));
     })
-    .then(([basicData, characterData, popularityData]) => {
+    .then(([basicData, characterData, unionData, popularityData]) => {
         // 캐릭터 기본 정보 출력
         document.getElementById('character_name').textContent = basicData.character_name;
         document.getElementById('world_name').textContent = basicData.world_name;
@@ -79,9 +81,17 @@ function searchCharacter() {
         document.getElementById('liberation_quest_clear_flag').textContent = basicData.liberation_quest_clear_flag;
         document.getElementById('character_image').src = basicData.character_image;
         
-       
+      // 유니온 레벨 정보
+        if (unionData.union_level !== undefined) {
+            document.getElementById('union_level').textContent = unionData.union_level;
+        } else {
+            document.getElementById('union_level').textContent = '유니온 레벨 정보를 찾을 수 없습니다.';
+        }
+        // 유니온 정보 표시
+        document.getElementById('union').style.display = 'block'; 
+      
+      
         const combatPowerData = characterData.final_stat.find(stat => stat.stat_name === "전투력");
-        
         // 전투력 HTML에 반영
         if (popularityData) {
             document.getElementById('combat-power').textContent = combatPowerData.stat_value;
