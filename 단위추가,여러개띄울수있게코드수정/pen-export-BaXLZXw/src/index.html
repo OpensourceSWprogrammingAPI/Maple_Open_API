@@ -1,0 +1,40 @@
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메이플스토리 캐릭터 검색</title>
+</head>
+<body>
+    <h1>메이플서치</h1>
+    <div id="search-section">
+        <input type="text" id="character-name" placeholder="캐릭터 이름을 입력하세요">
+        <input type="date" id="search-date">
+        <button onclick="searchCharacter()">검색</button>
+    </div>
+
+
+    <div id="character-info" style="display:none;">
+        <button id="close-btn" onclick="closeCharacterInfo()">X</button>
+        <h2>캐릭터 정보</h2>
+        <div class="character-content">
+ 
+            <div class="character-detail">
+                <p>월드: <span id="world_name"></span></p>
+                <p>직업: <span id="character_class"></span></p>
+                <p>이름: <span id="character_name"></span>
+                  <p>캐릭터 레벨: <span id="character_level"></span></p>
+              <p>경험치 비율: <span id="character_exp_rate">%</p>
+
+                <p>길드 이름: <span id="character_guild_name"></span></p>
+                <p>인기도: <span id="popularity"></span></p>
+                <p>전투력: <span id="combat_power"></span></p>
+                <p>유니온: <span id="union_level"></span></p>
+            </div>
+
+            <div class="image-container">
+                <img id="character_image" src="" alt="캐릭터 이미지">
+            </div>
+        </div>
+    </div>
+</body>
+</html>
